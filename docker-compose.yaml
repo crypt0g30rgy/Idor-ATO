@@ -1,0 +1,25 @@
+version: '3'
+services:
+  # MongoDB service
+  mongodb:
+    image: mongodb/mongodb-community-server:4.4.0-ubuntu2004
+    container_name: db_cluster
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  # Node.js/Express service
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-nodejs-container
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: mongodb://root:example@mongodb:27017/your-database-name
