@@ -159,11 +159,14 @@ router.patch('/', async (req, res) => {
         console.log(resetToken)
 
         // Find the user using the userId stored in the reset token
-        const userIsOwner = await UserModel.findOne({ _id: resetToken.userId });
 
-        if (userIsOwner.email !== email) {
-            return res.status(401).json({ message: 'Error' });
-        }
+        // Below Commented Code was fixing a bug in how password reset was being handle but heeyyy this is a vulnerable lab to learn bugs.
+
+        // const userIsOwner = await UserModel.findOne({ _id: resetToken.userId });
+
+        // if (userIsOwner.email !== email) {
+        //     return res.status(401).json({ message: 'Error' });
+        // }
 
         if (!resetToken) {
             return res.status(400).json({ message: 'Invalid or expired token' });
